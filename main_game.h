@@ -11,13 +11,12 @@ void main_game()
 	Bullet bullet_base;
 	std::vector<Bullet*> bullet_vector;
 
-	ALLEGRO_BITMAP *background[60];
+	background_music = al_load_sample("audio/Organ 67 - Fall of an Empire - Intense Powerful Organ Music.ogg");
+	al_play_sample(background_music, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
-	/*for(int i  = 0; i < 60; i ++)
-	background[i] = al_load_bitmap("ruined_tower04big.jpg");
-*/
 	while(!game_over)
 	{
+
 		al_get_keyboard_state(&keyboard_state);
 		al_get_mouse_state(&mouse_state);
 
