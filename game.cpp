@@ -1,4 +1,5 @@
 #include "libs.h"
+#include "frame.h"
 #include "init.h"
 #include "music.h"
 #include "basic_functions.h"
