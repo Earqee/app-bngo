@@ -36,7 +36,7 @@ void Bullet::update()
 
 void Bullet::draw()
 {
-	al_draw_rotated_bitmap(image, 0, 0, x-cam_x, y-cam_y, direction, 0);
+	al_draw_rotated_bitmap(image, 32, 32, x-cam_x, y-cam_y, direction, 0);
 }
 
 #endif
