@@ -19,6 +19,9 @@ int main( void )
 	display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT);
 	if(!display) return INVALID;
 
+	//music load
+	background_music = al_load_sample("audio/Organ 67 - Fall of an Empire - Intense Powerful Organ Music.ogg");
+
 	menu();
 
 	al_destroy_display(display);
