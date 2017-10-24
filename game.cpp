@@ -1,12 +1,12 @@
 #include "libs.h"
 #include "init.h"
+#include "music.h"
 #include "basic_functions.h"
 #include "classes.h"
 #include "player.h"
 #include "bullet.h"
 #include "main_game.h"
 #include "menu.h"
-
 
 
 int main( void )
