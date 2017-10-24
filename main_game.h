@@ -11,11 +11,9 @@ void main_game()
 	Bullet bullet_base;
 	std::vector<Bullet*> bullet_vector;
 
-	background_music = al_load_sample("audio/Organ 67 - Fall of an Empire - Intense Powerful Organ Music.ogg");
-	al_play_sample(background_music, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+	al_play_sample(background_music, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);	
 
-	//Frame delayed
-	Frame Player_Shot(5);
+	Frame Player_Shot(5); //Can player shoot?
 
 	while(!game_over)
 	{
@@ -30,6 +28,8 @@ void main_game()
 		cam_x = player.x - DISPLAY_WIDTH/2;
 		cam_y = player.y - DISPLAY_HEIGHT/2;
 
+		//PLAYER SHOT
+
 		if(Player_Shot.frameCount > 0)
 			Player_Shot.frameCount--;
 
@@ -41,6 +41,8 @@ void main_game()
 			bullet = new Bullet(bullet_base,player);
 			bullet_vector.push_back(bullet);
 		}
+
+		//DRAW
 
 		for(int i = 0;i < bullet_vector.size();i++)
 		{
