@@ -14,13 +14,13 @@ public:
 
 Enemy_follower::Enemy_follower()
 {
-    bound_x = 64;
-    bound_y = 64;
-    
-    direction = 0;
-    speed = 2;
-    life = 3;
-    
+    image = al_load_bitmap("images/assault.png");
+    shot_audio = al_load_sample("audio/Space Gun 04.wav");
+    shot_image = al_load_bitmap("images/laser3.png");
+    bound_x = 110;
+    bound_y = 110;	
+    life = 100;
+    speed = DEFAULT/1.5;
 }
 
 void Enemy_follower::update(Player &player)
