@@ -47,8 +47,8 @@ int Enemy::bullet_collision()
 {
 	for(unsigned int i = 0;i < bullet_vector.size();i++)
 	{
-		if(x - bullet_vector[i].x < width/2 + bullet_vector[i].width/2 
-		  && y - bullet_vector[i].y < height/2 + bullet_vector[i].height/2)
+		if(x - bullet_vector[i].x < bound_x/2 + bullet_vector[i].bound_x/2 
+		  && y - bullet_vector[i].y < bound_y/2 + bullet_vector[i].bound_y/2)
 		{
 			return 1;
 		}
