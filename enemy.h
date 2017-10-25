@@ -10,6 +10,7 @@ public:
 	
 	void damage();
 	int bullet_collision();
+	int enemy_collision();
 };
 
 Enemy::Enemy()
@@ -54,6 +55,25 @@ int Enemy::bullet_collision()
 		}
 	}
 	
+	return 0;
+}
+
+
+int Enemy::enemy_collision()
+{
+	double x_linha = x + bound_x/2*speed*cos(direction)/2;
+	double y_linha = y + bound_y/2*speed*sin(direction)/2;
+	
+	for(unsigned int i = 0;i < Enemies.size();i++)
+	{
+		if(x != Enemies[i]->x && y != Enemies[i]->y)
+		{
+			if(abs(x_linha - Enemies[i]->x) < bound_x/2 + Enemies[i]->bound_x/2 && abs(y_linha - Enemies[i]->y) < bound_y/2 + Enemies[i]->bound_y/2)
+			{
+				return 1;
+			}
+		}		
+	}
 	return 0;
 }
 
