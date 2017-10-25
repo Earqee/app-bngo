@@ -4,10 +4,10 @@
 class Frame
 {
 public:
-	Frame();
+	Frame(int x);
 	int frameCount;
 	int frameDelay;
-}
+};
 
 Frame::Frame(int x)
 {
