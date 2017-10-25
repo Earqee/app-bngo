@@ -25,6 +25,8 @@
 #define MAX_ANIM 9
 #define MAX_SOUNDS 1
 
+enum WalkerSound{DAMAGE,DEAD,SHOT};
+
 
 
 #endif
