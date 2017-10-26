@@ -10,9 +10,10 @@ void main_game()
 	Bullet* bullet;
 	Bullet bullet_base;
 	
-	/*Enemies*/
+	//Enemies
 	Enemy* enemy_pointer; //Ponteiro para classe base pode apontar para "filhos"
 	//Cópia de cada tipo de inimigo
+	
 	Enemy_follower follower_base;
 	Enemy_scout scout_base;
 	Enemy_support support_base;
@@ -20,6 +21,10 @@ void main_game()
 
 	/*Play background music*/
 	al_play_sample(background_music, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);	
+
+	// Background image load
+	ALLEGRO_BITMAP *ground;
+	ground = al_load_bitmap("images/ground.png");
 
 	Frame Player_Shot(5); //Can player shoot?
 
@@ -30,7 +35,14 @@ void main_game()
 		al_get_mouse_state(&mouse_state);
 		
 		//Draw background
-		al_clear_to_color(al_map_rgb(255,255,255));
+		for(int i = ((int)(cam_x/GROUND_TILE_SIZE))*GROUND_TILE_SIZE-GROUND_TILE_SIZE;i < cam_x+DISPLAY_WIDTH+GROUND_TILE_SIZE;i += GROUND_TILE_SIZE)
+		{
+			for(int j = ((int)(cam_y/GROUND_TILE_SIZE))*GROUND_TILE_SIZE-GROUND_TILE_SIZE;j < cam_y +DISPLAY_HEIGHT;j += GROUND_TILE_SIZE)
+			{
+				al_draw_bitmap(ground,i-cam_x,j-cam_y,0);
+			}
+		}
+
 		
 		//Player update
 		player.move();
@@ -52,17 +64,12 @@ void main_game()
 			Player_Shot.frameCount = Player_Shot.frameDelay;
 			al_play_sample(player.audio[SHOT], 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 		}
-
+		
 		//Criar inimigos
+		
 		if(Enemies.size() < MAX_ENEMIES)
 		{
 			enemy_pointer = new Enemy_scout();
-			Enemies.push_back(enemy_pointer);
-			enemy_pointer = new Enemy_support();
-			Enemies.push_back(enemy_pointer);
-			enemy_pointer = new Enemy_tech();
-			Enemies.push_back(enemy_pointer);
-			enemy_pointer = new Enemy_follower();
 			Enemies.push_back(enemy_pointer);
 		}
 		
