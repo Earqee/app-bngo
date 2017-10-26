@@ -1,7 +1,7 @@
 #ifndef BULLET_H
 #define BULLET_H
 
-class Bullet : public Volatile
+class Bullet : public Walker
 {
 public:
 	int type;
@@ -27,7 +27,10 @@ Bullet::Bullet(Bullet &bullet_base,Player &player)
 
 	speed = 10;
 
-	image = player.shot_image;
+	current_animation = 0;
+	current_frame = 0;
+
+	sprites[0][0] = al_load_bitmap("images/shot00/flashA1.png");
 }
 
 void Bullet::update()
@@ -38,7 +41,7 @@ void Bullet::update()
 
 void Bullet::draw()
 {
-	al_draw_rotated_bitmap(image, 32, 32, x-cam_x, y-cam_y, direction, 0);
+	al_draw_rotated_bitmap(sprites[current_animation][current_frame], 32, 32, x-cam_x, y-cam_y, direction, 0);
 }
 
 #endif
