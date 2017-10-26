@@ -13,20 +13,31 @@ public:
 
 };
 
-class Volatile : public Object
-{
-public:
-	double direction;
-	double speed;
-};
-
 class Animated : public Object
 {
 public:
-	int currentFrame;
-	int maxFrame;
-	ALLEGRO_BITMAP *anim[MAX_STATES][MAX_ANIM];
+	ALLEGRO_BITMAP* sprites[MAX_ANIM][MAX_FRAMES];
+	
+	int frames_quantity[MAX_ANIM];
+
+	int current_frame;
+	int frame_counter;
+
+	int current_animation;
+	int animation_quantity;
+
+	void animate();
 };
+
+void Animated::animate()
+{
+	frame_counter++;
+	if(frame_counter % (FPS/frames_quantity[current_animation]) == 0)
+	{
+		current_frame = (current_frame+1)%(frames_quantity[current_animation]);
+		frame_counter = 0;
+	}
+}	
 
 class Walker : public Animated
 {
