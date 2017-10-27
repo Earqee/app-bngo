@@ -14,6 +14,7 @@ int initialize(void)
 	if(!al_init_ttf_addon()) return 0;
 	if(!al_install_audio()) return 0;
 	if(!al_init_acodec_addon()) return  0;
+	al_reserve_samples(40);
 	al_init_primitives_addon();
 	al_install_mouse();
 	al_install_keyboard();

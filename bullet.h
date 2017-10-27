@@ -6,7 +6,7 @@ class Bullet : public Walker
 public:
 	int type;
 
-	Bullet(Bullet &bullet_base,Player &player);
+	Bullet(Bullet &bullet_base,Player &player, ENUM_TAG weapon, int bullet);
 	Bullet(){};
 	~Bullet(){};
 	
@@ -16,21 +16,44 @@ public:
 
 std::vector<Bullet*>bullet_vector;
 
-Bullet::Bullet(Bullet &bullet_base,Player &player)
+Bullet::Bullet(Bullet &bullet_base,Player &player, ENUM_TAG weapon, int bullet)
 {
-	this->x = player.x;
-	this->y = player.y;
-	this->direction = player.angle;
+	switch(weapon)
+	{
+		case MACHINEGUN:
+		{
+			this->x = player.x;
+			this->y = player.y;
+			this->direction = player.angle;
 
-	bound_x = 8;
-	bound_y = 8;
+			bound_x = 8;
+			bound_y = 8;
 
-	speed = 10;
+			speed = 10;
 
-	current_animation = 0;
-	current_frame = 0;
+			current_animation = 0;
+			current_frame = 0;
 
-	sprites[0][0] = al_load_bitmap("images/shot00/flashA1.png");
+			sprites[0][0] = al_load_bitmap("images/shot00/flashA1.png");
+		}
+		case SHOTGUN:
+		{
+			this->x = player.x;
+			this->y = player.y;
+
+			this->direction = player.angle + (bullet*PI/9);
+
+			bound_x = 8;
+			bound_y = 8;
+
+			speed = 10;
+
+			current_animation = 0;
+			current_frame = 0;
+
+			sprites[0][0] = al_load_bitmap("images/shot00/flashA1.png");
+		}
+	}	
 }
 
 void Bullet::update()

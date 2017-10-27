@@ -10,7 +10,6 @@ public:
 	double bound_x;
 	double bound_y;
 	ALLEGRO_BITMAP *image;
-
 };
 
 class Animated : public Object
@@ -32,7 +31,7 @@ public:
 void Animated::animate()
 {
 	frame_counter++;
-	if(frame_counter % (FPS/frames_quantity[current_animation]) == 0)
+	if(frame_counter % (FPS/frames_quantity[current_animation] - 5) == 0)
 	{
 		current_frame = (current_frame+1)%(frames_quantity[current_animation]);
 		frame_counter = 0;
@@ -53,7 +52,6 @@ public:
 	bool isAlive;
 	
 	ALLEGRO_BITMAP* shot_image;
-
 	ALLEGRO_SAMPLE* audio[MAX_SOUNDS];
 	int current_audio;
 
