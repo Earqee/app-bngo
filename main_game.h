@@ -144,8 +144,10 @@ void main_game()
 				delete Enemies[i];
 				Enemies.erase(Enemies.begin()+i);	
 			}
-
-			Enemies[i]->update(player);
+			else
+			{
+				Enemies[i]->update(player);
+			}
 		}
 		
 		//DRAW
