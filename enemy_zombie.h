@@ -56,9 +56,7 @@ void Enemy_Zombie::walking(Player &player)
 	speed = DEFAULT_SPEED;
 
     direction = getAngle(x,y,player.x,player.y) + PI;
-    
-    damage();
-    
+        
     double _angle = getAngle(player.x,player.y,x,y);
     
     if(!(_angle < player.angle + deg_to_rad(90)               //se estiver fora do campo de visao do jogador, a direcao continua normal
@@ -67,10 +65,10 @@ void Enemy_Zombie::walking(Player &player)
         speed = DEFAULT_SPEED;
         direction += deg_to_rad(90);
     }
-    
     if(!enemy_collision())
         move();
-    
+
+    damage();
     animate();
 
     if(player_collision(player))
