@@ -129,11 +129,7 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
 
       if(the_grim_reaper.destroyStrikes)
       {
-        for(int i = 0; i < strikes_vector.size(); i++)
-        {
-          delete strikes_vector[i];
-          strikes_vector.erase(strikes_vector.begin() + i);
-        }
+        strikes_vector.clear();
         the_grim_reaper.destroyStrikes = false;
       }
 
