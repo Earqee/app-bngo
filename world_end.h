@@ -71,7 +71,7 @@ The_Grim_Reaper::The_Grim_Reaper()
 	frameDelay[ELIMINATE] = 300;
 
 	change_state_count[0] = 0;
-	change_state_delay[0] = 100;
+	change_state_delay[0] = 85;
 
 	change_state_count[1] = 0;
 	change_state_delay[1] = 100;
