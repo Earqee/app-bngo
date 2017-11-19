@@ -1,39 +1,48 @@
 #ifndef MAIN_GAME_H
 #define MAIN_GAME_H
 
+#define MARGEM_ERRO (killed_enemies > MAX_ENEMIES - 3 && killed_enemies < MAX_ENEMIES)
+
 void main_game()
 {
 	bool game_over = false;
 
+	// Creates player
 	Player player;
-	
-	Bullet* bullet;
-	Bullet bullet_base;
-	
-	//Enemies
-	Enemy* enemy_pointer; //Ponteiro para classe base pode apontar para "filhos"
-	//Cópia de cada tipo de inimigo	
-	
-	/*Play background music*/
-	al_play_sample(background_music, 0.5, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);	
+
+	// Pointer for all classes derived from enemies
+	Enemy* enemy_pointer;
+	// Enemies counter
+	int killed_enemies = 0;
+	int created_enemies = 0;
+
+	// Play background music
+
+
+	//al_stop_samples();
+
+	al_play_sample(background_music, 0.5, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
 	// Background image load
 	ALLEGRO_BITMAP *ground;
 	ground = al_load_bitmap("images/ground.png");
 
-	Frame Player_Shot(5); //Can player shoot? (1/12)s delay
-	Frame Spawn_Fatso(180); //Can fatso spawn? (3,0)s delay
-	Frame Spawn_Zombie(80); //Can zombie spawn? (1,2)s delay
-	Frame Spawn_Dog(140); //Can dog spawn? (2,2)s delay
-	Frame Spawn_Doctor(200); //Can Doctor spawn? (3,2)s delay
-	Frame Spawn_Pyro(300); //Can DoctorPyro spawn? (5,0)s delay
-	
+	//Enemies spawn delay
+	Frame Spawn_Fatso(3*60);
+	Frame Spawn_Zombie(1.2*60);
+	Frame Spawn_Dog(2.2*60);
+	Frame Spawn_Doctor(3.2*60);
+	Frame Spawn_Pyro(5*60);
+
+	bool crab_killed = false;
+	bool snake_killed = false;
+	bool grim_killed = false;
+
+
 	while(!game_over)
 	{
-		//Input
-		al_get_keyboard_state(&keyboard_state);
-		al_get_mouse_state(&mouse_state);
-		
+		gets_input();
+
 		//Draw background
 		for(int i = ((int)(cam_x/GROUND_TILE_SIZE))*GROUND_TILE_SIZE-GROUND_TILE_SIZE;i < cam_x+DISPLAY_WIDTH+GROUND_TILE_SIZE;i += GROUND_TILE_SIZE)
 		{
@@ -42,127 +51,185 @@ void main_game()
 				al_draw_bitmap(ground,i-cam_x,j-cam_y,0);
 			}
 		}
-		
-		//Camera update
-		cam_x = player.x - DISPLAY_WIDTH/2;
-		cam_y = player.y - DISPLAY_HEIGHT/2;
 
-		//PLAYER SHOT
-		if(al_key_down(&keyboard_state, ALLEGRO_KEY_T))
-		{
-			player.current_weapon = SHOTGUN;
-		}
-		if(al_key_down(&keyboard_state, ALLEGRO_KEY_R))
-		{
-			player.current_weapon = MACHINEGUN;
-		}
+		camera_update(player.x, player.y);
 
-		std::cout << player.current_weapon << std::endl;
-
-		if(Player_Shot.frameCount > 0)
-			Player_Shot.frameCount--;
-		
-		if((mouse_state.buttons & 1) && (!Player_Shot.frameCount))
+		if(created_enemies < MAX_ENEMIES)
 		{
-			switch(player.current_weapon)
+			if(++Spawn_Zombie.frameCount > Spawn_Zombie.frameDelay)
 			{
-				case MACHINEGUN:
-				{
-					Player_Shot.frameDelay = 5;
-					Player_Shot.frameCount = Player_Shot.frameDelay;
-					bullet = new Bullet(bullet_base,player, MACHINEGUN, 0);
-					bullet_vector.push_back(bullet);
-					Player_Shot.frameCount = Player_Shot.frameDelay;
-					break;
-				}
-				case SHOTGUN:
-				{
-					Player_Shot.frameDelay = 80;
-					Player_Shot.frameCount = Player_Shot.frameDelay;
-					for(int i = 0; i < 5; i++)
-					{
-						//Essa foi ótima, explico-lhes na segunda
-						bullet = new Bullet(bullet_base,player, SHOTGUN, i-2); 
-						bullet_vector.push_back(bullet);
-					}
-					break;					
-				}
-				default:
-				break;
+				Spawn_Zombie.resetFrameCount();
+				enemy_pointer = new Enemy_Zombie();
+				Enemies.push_back(enemy_pointer);
+				created_enemies++;
 			}
-			
-			al_play_sample(player.weapon_audio[player.current_weapon], 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+			if(++Spawn_Dog.frameCount > Spawn_Dog.frameDelay)
+			{
+				Spawn_Dog.resetFrameCount();
+				enemy_pointer = new Enemy_Dog();
+				Enemies.push_back(enemy_pointer);
+				created_enemies++;
+			}
+			if(++Spawn_Fatso.frameCount > Spawn_Fatso.frameDelay)
+			{
+				Spawn_Fatso.resetFrameCount();
+				enemy_pointer = new Enemy_Fatso();
+				Enemies.push_back(enemy_pointer);
+				created_enemies++;
+			}
+			if(++Spawn_Doctor.frameCount > Spawn_Doctor.frameDelay)
+			{
+				Spawn_Doctor.resetFrameCount();
+				enemy_pointer = new Enemy_Doctor();
+				Enemies.push_back(enemy_pointer);
+				created_enemies++;
+			}
+			if(++Spawn_Pyro.frameCount > Spawn_Pyro.frameDelay)
+			{
+				Spawn_Pyro.resetFrameCount();
+				enemy_pointer = new Enemy_Pyro();
+				Enemies.push_back(enemy_pointer);
+				created_enemies++;
+			}
 		}
-		
-		if(++Spawn_Zombie.frameCount > Spawn_Zombie.frameDelay)
+		else
 		{
-			Spawn_Zombie.resetFrameCount();
-			enemy_pointer = new Enemy_Zombie();
-			Enemies.push_back(enemy_pointer);
+			if(!crab_killed && MARGEM_ERRO )
+			{						
+				for (int i = 0;i < Enemies.size(); i++)
+				{
+					delete Enemies[i];
+				}
+
+				Enemies.clear();
+
+				cam_fixed = true;
+				Crab_creator(player, ground);
+	
+				cam_fixed = false;
+				created_enemies = 0;
+				MAX_ENEMIES = 18;
+				if(player.isAlive)
+					crab_killed = true;
+			}
+			else if(!snake_killed && MARGEM_ERRO)
+			{		
+				for (int i = 0;i < Enemies.size(); i++)
+				{
+					delete Enemies[i];
+				}
+
+				Enemies.clear();
+
+				cam_fixed = true;
+				Snake_creator(player, ground);
+
+				cam_fixed = false;
+				created_enemies = 0;
+				MAX_ENEMIES = 25;
+				if(player.isAlive)
+					snake_killed = true;
+			}
+			else if(!grim_killed && MARGEM_ERRO)
+			{				
+				for (int i = 0;i < Enemies.size(); i++)
+				{
+					delete Enemies[i];
+				}
+				Enemies.clear();
+
+				cam_fixed = false;
+				Grim_creator(player, ground);
+
+				cam_fixed = false;
+				created_enemies = 0;
+				if(player.isAlive)
+					grim_killed = true;
+			}			
 		}
 
-		if(++Spawn_Dog.frameCount > Spawn_Dog.frameDelay)
-		{
-			Spawn_Dog.resetFrameCount();
-			enemy_pointer = new Enemy_Dog();
-			Enemies.push_back(enemy_pointer);
-		}
-		if(++Spawn_Fatso.frameCount > Spawn_Fatso.frameDelay)
-		{
-			Spawn_Fatso.resetFrameCount();
-			enemy_pointer = new Enemy_Fatso();
-			Enemies.push_back(enemy_pointer);
-		}
-		
-		if(++Spawn_Doctor.frameCount > Spawn_Doctor.frameDelay)
-		{
-			Spawn_Doctor.resetFrameCount();
-			enemy_pointer = new Enemy_Doctor();
-			Enemies.push_back(enemy_pointer);
-		}
-		if(++Spawn_Pyro.frameCount > Spawn_Pyro.frameDelay)
-		{
-			Spawn_Pyro.resetFrameCount();
-			enemy_pointer = new Enemy_Pyro();
-			Enemies.push_back(enemy_pointer);
-		}	
-					
-		//Bullet update
+		// Bullet update
 		for(int i = 0;i < bullet_vector.size();i++)
 		{
 			bullet_vector[i]->update();
 			bullet_vector[i]->draw();
 		}
 
-		
+		// Enemy life update
 		for(int i = 0;i < Enemies.size();i++)
 		{
-			// Enemy life update
 			if(!(Enemies[i]->life > 0))
 			{
 				al_play_sample(Enemies[i]->audio[DEAD], 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+				player.score += Enemies[i]->score;
 				delete Enemies[i];
-				Enemies.erase(Enemies.begin()+i);	
+				Enemies.erase(Enemies.begin()+i);
+				killed_enemies++;
 			}
 			else
 			{
 				Enemies[i]->update(player);
 			}
 		}
-		
-		//DRAW
-		al_draw_circle(0-cam_x,0-cam_y,96,al_map_rgb(0,0,0),10);		//referencial
-		player.draw();		
-	
-		
-		if(al_key_down(&keyboard_state,ALLEGRO_KEY_ESCAPE))
+
+		// Player update
+		if(player.life > 0)
 		{
-			game_over = true;
+			player.update();
 		}
-		
-		al_rest(1/60);
+		else
+		{
+			if(player_dead == false)
+			{
+				playerDeath();
+			}
+			else
+			{
+				for (int i = 0;i < Enemies.size(); i++)
+				{
+					delete Enemies[i];
+				}
+				Enemies.clear();
+				return;
+			}
+		}
+
+		if(al_key_down(&keyboard_state,ALLEGRO_KEY_ESCAPE) && !al_key_down(&ks_prev,ALLEGRO_KEY_ESCAPE))
+		{
+			al_draw_textf(screen_font[0], ORANGE, DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2, ALLEGRO_ALIGN_CENTRE, "JOGO PAUSADO");
+			al_flip_display();
+			while(1)
+			{
+				gets_input();
+				if(al_key_down(&keyboard_state,ALLEGRO_KEY_ENTER) && !al_key_down(&ks_prev,ALLEGRO_KEY_ENTER))
+				{
+					game_over = true;
+					break;
+				}
+				else
+				{
+					al_draw_textf(screen_font[0], ORANGE, DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2, ALLEGRO_ALIGN_CENTRE, "JOGO PAUSADO");
+					if(al_key_down(&keyboard_state,ALLEGRO_KEY_ESCAPE) && !al_key_down(&ks_prev,ALLEGRO_KEY_ESCAPE))
+					{
+						break;
+					}
+				}
+				al_rest(1.0/FPS);
+			}
+		}
+
 		al_flip_display();
+
+		al_rest(1.0/FPS);
 	}
+
+	//RESET ENEMIES AND SOUND
+	for (int i = 0;i < Enemies.size(); i++)
+	{
+		delete Enemies[i];
+	}
+	Enemies.clear();
+	al_stop_samples();
 }
 
 #endif

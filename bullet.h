@@ -6,54 +6,46 @@ class Bullet : public Walker
 public:
 	int type;
 
-	Bullet(Bullet &bullet_base,Player &player, ENUM_TAG weapon, int bullet);
-	Bullet(){};
+	Bullet(Bullet *bullet_base,double player_x,double player_y,
+		 		 double player_angle, int bullet);
+
+	Bullet();
 	~Bullet(){};
-	
+
 	void update();
 	void draw();
 };
 
 std::vector<Bullet*>bullet_vector;
 
-Bullet::Bullet(Bullet &bullet_base,Player &player, ENUM_TAG weapon, int bullet)
+Bullet::Bullet()
 {
-	switch(weapon)
-	{
-		case MACHINEGUN:
-		{
-			this->x = player.x;
-			this->y = player.y;
-			this->direction = player.angle;
+	bound_x = 8;
+	bound_y = 8;
 
-			bound_x = 8;
-			bound_y = 8;
+	speed = 10;
 
-			speed = 10;
+	current_animation = 0;
+	current_frame = 0;
 
-			current_animation = 0;
-			current_frame = 0;
+	sprites[0][0] = al_load_bitmap("images/shot00/flashA1.png");
+}
 
-			sprites[0][0] = al_load_bitmap("images/shot00/flashA1.png");
-		}
-		case SHOTGUN:
-		{
-			this->x = player.x;
-			this->y = player.y;
+Bullet::Bullet(Bullet *bullet_base,double player_x,double player_y,double player_angle,int bullet)
+{
+		this->x = player_x;
+		this->y = player_y;
+		this->direction = player_angle + (bullet * PI/9);
 
-			this->direction = player.angle + (bullet*PI/9);
+		bound_x = bullet_base->bound_x;
+		bound_y = bullet_base->bound_y;
 
-			bound_x = 8;
-			bound_y = 8;
+		speed = bullet_base->speed;
 
-			speed = 10;
+		current_animation = bullet_base->current_animation;
+		current_frame = bullet_base->current_frame;
 
-			current_animation = 0;
-			current_frame = 0;
-
-			sprites[0][0] = al_load_bitmap("images/shot00/flashA1.png");
-		}
-	}	
+		sprites[0][0] = bullet_base->sprites[0][0];
 }
 
 void Bullet::update()

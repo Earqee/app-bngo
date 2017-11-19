@@ -5,17 +5,18 @@ class Enemy_Zombie: public Normal_Enemy
 {
 public:
     Enemy_Zombie();
-    
+
     void update(Player &player);
     void walking(Player &player);
-    void attacking(Player &player);   
+    void attacking(Player &player);
 };
 
 Enemy_Zombie::Enemy_Zombie()
 {
+    attack_timer.Set_count_delay(1*60);
     //Animation
     char nome_sprite[] = "images/enemy0/zombie/0-0.png";
-       
+
     for(int i = 0;i < animation_quantity; i++)
     {
         for(int j = 0;j < frames_quantity[i]; j++)
@@ -31,6 +32,9 @@ Enemy_Zombie::Enemy_Zombie()
     audio[DEAD] = al_load_sample("audio/zombie0-1.wav");
 
     life = 10;
+    atk_strength = 12;
+    score = atk_strength;
+
     speed = DEFAULT_SPEED/3;
 }
 
@@ -47,7 +51,7 @@ void Enemy_Zombie::update(Player &player)
         {
             attacking(player);
             break;
-        }        
+        }
     }
 }
 
@@ -56,11 +60,13 @@ void Enemy_Zombie::walking(Player &player)
 	speed = DEFAULT_SPEED;
 
     direction = getAngle(x,y,player.x,player.y) + PI;
-        
+
     double _angle = getAngle(player.x,player.y,x,y);
-    
-    if(!(_angle < player.angle + deg_to_rad(90)               //se estiver fora do campo de visao do jogador, a direcao continua normal
-    && _angle > player.angle - deg_to_rad(90)))              //senao, faz uma trajetoria circular em relacao ao jogador
+
+    if(!(_angle < player.angle + deg_to_rad(90)
+    && _angle > player.angle - deg_to_rad(90))
+	&& abs(y - player.y) < DISPLAY_HEIGHT/2
+	&& abs(x - player.x) < DISPLAY_HEIGHT/2)
     {
         speed = DEFAULT_SPEED;
         direction += deg_to_rad(90);
@@ -83,14 +89,17 @@ void Enemy_Zombie::walking(Player &player)
 
 void Enemy_Zombie::attacking(Player &player)
 {
-    damage();
-    animate();
-    if(!player_collision(player))
-    {
-        state = WALKING_E_SC;
-        current_animation = WALKING_E_SC;
-        current_frame = 0;
-    }
+  attack_player(player);
+  damage();
+  animate();
+  attack_timer.frameCount++;
+  if(attack_timer.frameCount == attack_timer.frameDelay)
+  {
+      state = WALKING_E_SC;
+      current_animation = WALKING_E_SC;
+      current_frame = 0;
+      attack_timer.resetFrameCount();
+  }
 }
 
 #endif

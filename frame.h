@@ -4,12 +4,18 @@
 class Frame
 {
 public:
+	Frame();
 	Frame(int x);
 	int frameCount;
 	int frameDelay;
 
 	void resetFrameCount();
+	void Set_count_delay(int frame_delay);
 };
+
+
+Frame::Frame()
+{}
 
 Frame::Frame(int x)
 {
@@ -19,6 +25,12 @@ Frame::Frame(int x)
 void Frame::resetFrameCount()
 {
 	this->frameCount = 0;
+}
+
+void Frame::Set_count_delay(int frame_delay)
+{
+	this->frameCount = 0;
+	this->frameDelay = frame_delay;
 }
 
 
