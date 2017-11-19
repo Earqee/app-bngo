@@ -218,7 +218,7 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
 
 
 
-      for(unsigned int i = 0; i < strikes_vector.size(); i++)
+      for(int i = 0; i < strikes_vector.size(); i++)
   		{
         
   			if(strikes_vector[i]->x > DISPLAY_WIDTH + cam_x + E || strikes_vector[i]->x < cam_x - E ||
