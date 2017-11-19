@@ -21,6 +21,7 @@ void main_game()
 
 	//al_stop_samples();
 
+	al_stop_samples();
 	al_play_sample(background_music, 0.5, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
 	// Background image load
@@ -34,10 +35,7 @@ void main_game()
 	Frame Spawn_Doctor(3.2*60);
 	Frame Spawn_Pyro(5*60);
 
-	bool crab_killed = false;
-	bool snake_killed = false;
-	bool grim_killed = false;
-
+	
 
 	while(!game_over)
 	{
@@ -111,6 +109,7 @@ void main_game()
 				MAX_ENEMIES = 18;
 				if(player.isAlive)
 					crab_killed = true;
+				player.life = 100;
 			}
 			else if(!snake_killed && MARGEM_ERRO)
 			{		
@@ -129,6 +128,7 @@ void main_game()
 				MAX_ENEMIES = 25;
 				if(player.isAlive)
 					snake_killed = true;
+				player.life = 10;
 			}
 			else if(!grim_killed && MARGEM_ERRO)
 			{				

@@ -264,7 +264,7 @@ void Crab::attack(Player &player)
       break;
       case ATK_FUZZY:
       {
-        life+=2;
+        life++;
         water_projectile.push_back(new Bullet_crab(water_projectile_copy, x, y, bound_y/2, deg_to_rad(rand()%180), rand()%3-4));
       }
       break;

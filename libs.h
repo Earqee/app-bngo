@@ -33,6 +33,10 @@ int MAX_ENEMIES = 10;
 enum States{WALKING, IDLE};
 enum WalkerSound{DAMAGE,DEAD,SHOT};
 
+bool crab_killed = false;
+bool snake_killed = false;
+bool grim_killed = false;
+
 //SNAKE
 enum snake_SOUNDS {SCREAM};
 enum snake_states {WAND_SNAKE,SEARCH_SNAKE,HURT_SNAKE,CHASE_SNAKE,ATTACK_SNAKE,DEAD_SNAKE};
