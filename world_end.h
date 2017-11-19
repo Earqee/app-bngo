@@ -83,7 +83,7 @@ The_Grim_Reaper::The_Grim_Reaper()
 	is_Right = true;
 	decreasing = false;
 
-	image = al_load_bitmap("images/grim/grim.jpg");
+	image = al_load_bitmap("images/grim/grim.png");
 	area_atack[0] = al_load_bitmap("images/grim/index.png");
 	area_atack[1] = al_load_bitmap("images/grim/index2.png");
 
@@ -131,17 +131,29 @@ void The_Grim_Reaper::move(Player &player)
 
 void The_Grim_Reaper::change_x(Player &player)
 { //OK
+	std::cout << "Hi0" << std::endl;
+
 	direction = getAngle(player.x, player.y, this->x+90, this->y+90);
+
+	std::cout << "wtf" << std::endl;
 	
 	if(++change_state_count[0] > change_state_delay[0])
 	{
+		std::cout << "wtf" << std::endl;
+
 		change_state_count[0] = 0;
 		
 		world_end_attack = true;
 		destroyStrikes = true;
+		
+		std::cout << "wtf1" << std::endl;
 
 		this->STATE = rand_stage();
+
+		std::cout << "wtf2" << std::endl;
 	}
+
+	std::cout << "Hi1" << std::endl;
 	
 	dist_player_boss = dist_point(player.x, player.y, x + 90, y + 90);
 	
@@ -177,6 +189,7 @@ void The_Grim_Reaper::change_x(Player &player)
 
 ENUM_TAG The_Grim_Reaper::rand_stage()
 {
+	std::cout << "Aqui dentro" << std::endl;
 	switch(rand()%5)
 	{
 		case 0:        
@@ -194,6 +207,7 @@ ENUM_TAG The_Grim_Reaper::rand_stage()
 		case 4:
 		return RECONSTRUCTION;
 	}
+	std::cout << "Aqui fora" << std::endl;
 	return 0;
 }
 
@@ -201,6 +215,7 @@ void The_Grim_Reaper::repost()
 {	
 	x += 8 * cos(direction);
 	y += 8 * sin(direction);
+
 
 	if(++frameCount[RECONSTRUCTION]> frameDelay[RECONSTRUCTION])
 	{
@@ -216,7 +231,8 @@ void The_Grim_Reaper::draw()
 }
 
 void The_Grim_Reaper::act(Player &player, ENUM_TAG attack_mode)
-{	
+{
+	
 	if(++frameCount[attack_mode] > frameDelay[attack_mode])
 	{
 		frameCount[attack_mode] = 0;
@@ -229,6 +245,7 @@ void The_Grim_Reaper::act(Player &player, ENUM_TAG attack_mode)
 		}
 
 		STATE = NORMAL;
+		//return;
 	}
 
 	al_draw_tinted_bitmap(area_atack[attack_mode], al_map_rgba_f(0.3 + alpha[attack_mode]*0.1, 0, 0, 0.3 + alpha[attack_mode]*0.1), x - def_x - 480, y - def_y - 650, 0);
@@ -248,6 +265,7 @@ void The_Grim_Reaper::merge()
 
 void The_Grim_Reaper::eliminate()
 {
+
 	if(++frameCount[ELIMINATE] > frameDelay[ELIMINATE])
 	{
 		frameCount[ELIMINATE] = 0;
@@ -279,6 +297,8 @@ public:
 	void update();
 	void draw();
 };
+
+
 
 Grim_Reaper_Strike::Grim_Reaper_Strike(The_Grim_Reaper grim, int mod, int dir, double modifier)
 {
@@ -357,6 +377,6 @@ void Grim_Reaper_Strike::draw()
 	}
 }
 
-//Boa sorte.
+
 
 #endif

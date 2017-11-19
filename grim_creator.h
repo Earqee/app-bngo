@@ -2,8 +2,6 @@
 #define GRIM_CREATOR_H
 
 #define REF 50
-#define STARDARD_AUDIO_VOLUME 3.0, 0, 1.0
-#define STANDARD_TEXT_POSITION player_x_real - 35, player_y_real + 335, ALLEGRO_ALIGN_CENTRE
 
 void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
 {
@@ -87,8 +85,9 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
         }
       }
 
+
       //AQUI
-      al_draw_text(boss_name, al_map_rgb(255, 255, 255), 65 + player_x_real - (500)*(the_grim_reaper.life/300.00), player_y_real + 285, ALLEGRO_ALIGN_CENTRE, "The Grim Reaper");
+      al_draw_text(boss_name, al_map_rgb(255, 255, 255), 65 + player_x_real - (500)*(the_grim_reaper.life/300.00), - 25 + player_y_real + 310, ALLEGRO_ALIGN_CENTRE, "The Grim Reaper");
       al_draw_filled_rectangle(player_x_real - (500)*(the_grim_reaper.life/300.00), player_y_real + 310, player_bound_x_real + 500*(the_grim_reaper.life/300.00), player_bound_y_real + 330, al_map_rgb(255, 0, 0));
 
       for(int i = 0;i < bullet_vector.size();i++)
@@ -119,7 +118,10 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
         strikes_vector[i]->update();
       }
 
-      ////////////////////////// Grim UPDATE  
+      ////////////////////////// Grim UPDATE 
+
+      
+
 
       player.update();
   		the_grim_reaper.move(player);
@@ -134,6 +136,7 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
         }
         the_grim_reaper.destroyStrikes = false;
       }
+
 
   		if(the_grim_reaper.STATE != MERGE && the_grim_reaper.STATE != ELIMINATE)
   		{
@@ -155,7 +158,7 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
   					al_draw_text(fonte_arial, al_map_rgb(255, 255, 255), text_x_position[i], text_y_position[i],  ALLEGRO_ALIGN_CENTRE,
   			   			"HAHA");
           }
-          al_draw_text(fonte_arial, al_map_rgb(255, 255, 255), STANDARD_TEXT_POSITION, "...And STAY DOWN!");
+          al_draw_text(fonte_arial, al_map_rgb(255, 255, 255), 400 + 65 + player_x_real - 500, - REF - 25 + player_y_real + 310, ALLEGRO_ALIGN_CENTRE, "...And STAY DOWN!");
           
           if(the_grim_reaper.world_end_attack)
           {
@@ -165,7 +168,7 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
               strikes_vector.push_back(strike);
             }
             the_grim_reaper.world_end_attack = false;
-            al_play_sample(the_grim_reaper.audio_atack[3], STARDARD_AUDIO_VOLUME, ALLEGRO_PLAYMODE_ONCE, NULL);
+            al_play_sample(the_grim_reaper.audio_atack[3], 3.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
             }
   			}
         else if(the_grim_reaper.STATE == RECONSTRUCTION)
@@ -173,7 +176,7 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
           al_draw_text(fonte_arial, al_map_rgb(255, 255, 255), 400 + 65 + player_x_real - 500, - REF - 25 + player_y_real + 310, ALLEGRO_ALIGN_CENTRE, "Aren't you supposed to be dead?");
           if(the_grim_reaper.world_end_attack)
           {
-            al_play_sample(the_grim_reaper.audio_atack[0], STARDARD_AUDIO_VOLUME, ALLEGRO_PLAYMODE_ONCE, NULL);
+            al_play_sample(the_grim_reaper.audio_atack[0], 3.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
             the_grim_reaper.world_end_attack = false;
           }
         }
@@ -181,7 +184,7 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
   		else if(the_grim_reaper.STATE == MERGE)
   		{
         cam_shake = true;
-        al_draw_text(fonte_arial, al_map_rgb(255, 255, 255), STANDARD_TEXT_POSITION, "I didn't start this war but I'm damn well gonna finish it.");
+        al_draw_text(fonte_arial, al_map_rgb(255, 255, 255), 400 + 65 + player_x_real - 500, - REF  - 25 + player_y_real + 310, ALLEGRO_ALIGN_CENTRE, "I didn't start this war but I'm damn well gonna finish it.");
           
   			if(the_grim_reaper.world_end_attack)
   			{
@@ -190,7 +193,7 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
   				  strike = new Grim_Reaper_Strike(the_grim_reaper, 0, 0, i/30);
   					strikes_vector.push_back(strike);
   				}
-          al_play_sample(the_grim_reaper.audio_atack[2], STARDARD_AUDIO_VOLUME, ALLEGRO_PLAYMODE_ONCE, NULL);
+          al_play_sample(the_grim_reaper.audio_atack[2], 3.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
   				the_grim_reaper.world_end_attack = false;
   			}
   		}
@@ -198,8 +201,8 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
   		{
         
         cam_shake = true;
-        al_draw_text(fonte_arial, al_map_rgb(255, 255, 255), STANDARD_TEXT_POSITION, "Always too overconfident..");
-        
+        al_draw_text(fonte_arial, al_map_rgb(255, 255, 255), 400 + 65 + player_x_real - 500, - REF - 25 + player_y_real + 310, ALLEGRO_ALIGN_CENTRE, "Always too overconfident..");
+          
   			if(the_grim_reaper.world_end_attack)
   			{
           for(int i = 0; i < 32; i++)
@@ -216,6 +219,8 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
     	int E = 500;
 
       //al_draw_rectangle(player_x_real, player_y_real, player_bound_x_real, player_bound_y_real, al_map_rgb(255, 255, 0), 1);
+
+
 
       for(unsigned int i = 0; i < strikes_vector.size(); i++)
   		{
@@ -240,6 +245,9 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
 
       // Bullet update
 
+      std::cout << the_grim_reaper.life << std::endl;
+
+
       reset_camera();
 
       if(al_key_down(&keyboard_state,ALLEGRO_KEY_ESCAPE))
@@ -251,6 +259,7 @@ void Grim_creator(Player &player, ALLEGRO_BITMAP* ground)
       al_flip_display();
       al_rest(1.0/75);
     }
+    std::cout << "HI" << std::endl;
 
     player.life = 0;
     player.isAlive = false;
