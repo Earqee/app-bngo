@@ -1,7 +1,7 @@
 Projeto de Programação 1 - 2017
 
+-- FEITO POR --
 
-Alunos:
 
 Hugo Tallys Martins de Oliveira
 
@@ -11,6 +11,8 @@ Thiago José Silva Santos
 
 Valério Nogueira Rodrigues Júnior
 
+
+-- UTILIDADE --
 
 Site do jogo:
 
@@ -25,3 +27,5 @@ http://icbrancadeneve.blogspot.com.br/p/download.html
 Contato conosco: 
 
 http://icbrancadeneve.blogspot.com.br/p/contato.html
+
+--
