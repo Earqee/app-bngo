@@ -1,6 +1,6 @@
 ## Projeto de Programação 1 (2017.1)
 Clique [aqui](http://icbrancadeneve.blogspot.com.br/) para ir ao site do jogo. <br />
-##### Pre-requisitos: <br />
+##### Pré-requisitos: <br />
 Library [Allegro](https://wiki.allegro.cc/index.php?title=Install_Allegro_from_Ubuntu_PPAs) instalada. <br />
 Para jogar basta rodar o executável ./a.out ou game.exe dentro da pasta do jogo para Linux e Windows, respectivamente.
 #### Apreendimentos
