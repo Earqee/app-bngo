@@ -27,4 +27,4 @@ Terceiro chefe (transição de fase)
 ![Third Boss 3](https://3.bp.blogspot.com/-zhOJz5fQJ68/Wg0N85FBrEI/AAAAAAAAIqU/4z-C9blsnAIYQb45RyeZUUJn_v8ukKVkQCEwYBhgL/s1600/Screenshot%2Bfrom%2B2017-11-16%2B00-56-59.png)
 
 ## Contribuidores
-Todo o projeto foi desenvolvido conjuntamente pelos discentes de Engenharia de Computação Thiago José , Hugo Tallys, Valério Nogueira e José Augusto, e validado pelo Prof. Dr. [Rodrigo Paes](https://github.com/r0drigopaes), contando também com ajuda do Prof. Dr. [Alfredo Lima](https://github.com/AlfredLima). Agradeçemos ambos pela instrução e motivação.
+Todo o projeto foi desenvolvido conjuntamente pelos discentes de Engenharia de Computação Thiago José, Hugo Tallys, Valério Nogueira e José Augusto, e validado pelo Prof. Dr. [Rodrigo Paes](https://github.com/r0drigopaes), contando também com ajuda do Prof. Dr. [Alfredo Lima](https://github.com/AlfredLima). Agradeçemos ambos pela instrução e motivação.
